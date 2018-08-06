@@ -1,7 +1,24 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Editor, EditorState, RichUtils} from 'draft-js';
+
 <RaisedButton color="primary">Bold</RaisedButton>
+
+export default class Editor extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      
+    }
+  }
+  render() {
+    return(
+      <div className = "editor" style={{border: '1px solid black', backgroundColor: 'white', height: 200, width: 400}}>
+
+      </div>
+    )
+  }
+}
 
 export default class App extends React.Component {
   constructor(props) {
