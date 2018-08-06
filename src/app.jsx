@@ -20,6 +20,7 @@ import FormatColorText from 'material-ui/svg-icons/editor/format-color-text';
 import FormatBold from 'material-ui/svg-icons/editor/format-bold';
 
 import FormatItalic from 'material-ui/svg-icons/editor/format-italic'
+import FormatSize from 'material-ui/svg-icons/editor/format-size'
 
 
 
@@ -32,6 +33,21 @@ const styleMap = {
   },
   'PURPLEFONT': {
     color: "purple"
+  },
+
+  'TWELVE': {
+    fontSize: 12
+  },
+
+  'FOURTEEN': {
+    fontSize: 14
+  },
+  'EIGHTEEN': { 
+     fontSize: 18
+  },
+
+  'THIRTYSIX': { 
+     fontSize: 36
   }
 };
 
@@ -43,6 +59,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       showPopOver: false,
+      showPopOverSize: false,
       editorState: EditorState.createEmpty()
     };
    // this.onChange = (editorState) => this.setState({editorState});
@@ -78,6 +95,25 @@ onPurpleClick(e) {
   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'PURPLEFONT'));
 }
 
+
+onTwelveClick(e) {
+  e.preventDefault();
+  this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'TWELVE'));
+}
+onFourteenClick(e) {
+  e.preventDefault();
+  this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'FOURTEEN'));
+}
+
+onEighteenClick(e) {
+  e.preventDefault();
+  this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'EIGHTEEN'));
+}
+onThirtySixClick(e) {
+  e.preventDefault();
+  this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'THIRTYSIX'));
+}
+
   onChange(editorState) {
     this.setState({ editorState });
   }
@@ -109,6 +145,14 @@ onPurpleClick(e) {
         e.preventDefault();
         this.setState({showPopOver:true, fontMenuEl: e.currentTarget})
       }}></FlatButton>
+
+      <FlatButton//size
+        icon = {<FormatSize/>}
+        onMouseDown={(e) => {
+        e.preventDefault();
+        this.setState({showPopOverSize:true, fontMenuEl: e.currentTarget})
+      }}></FlatButton>
+
       <FlatButton
         icon = {<FormatBold/>}
         onMouseDown={(e) => this.onBoldClick(e)}>
@@ -133,6 +177,22 @@ onPurpleClick(e) {
       <MenuItem primaryText="Red" onMouseDown={(e) => this.onRedClick(e)}/>
       <MenuItem primaryText="Blue" onMouseDown={(e) => this.onBlueClick(e)}/>
       <MenuItem primaryText="Purple" onMouseDown={(e) => this.onPurpleClick(e)}/>
+     </Menu>
+   </Popover>
+
+
+    <Popover
+              open={this.state.showPopOverSize}
+              anchorEl={this.state.fontMenuEl}
+              anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              onRequestClose={() => this.setState({showPopOverSize: false})}
+            >
+    <Menu>
+      <MenuItem primaryText="12" onMouseDown={(e) => this.onTwelveClick(e)}/>
+      <MenuItem primaryText="14" onMouseDown={(e) => this.onFourteenClick(e)}/>
+      <MenuItem primaryText="18" onMouseDown={(e) => this.onEighteenClick(e)}/>
+      <MenuItem primaryText="36" onMouseDown={(e) => this.onThirtySixClick(e)}/>
      </Menu>
    </Popover>
     </div>);
