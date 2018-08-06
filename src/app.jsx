@@ -16,22 +16,22 @@ export default class App extends React.Component {
   }
 
   onBoldClick(e) {
-    e.preventDefault()
+    e.preventDefault();
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
 
   onItalicsClick(e) {
-    e.preventDefault()
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'))
+    e.preventDefault();
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
   }
 
   onUnderlineClick(e) {
-    e.preventDefault()
-    this.onChange(RichUtils.toggleInLineStyle(this.state.editorState, 'UNDERLINE'))
+    e.preventDefault();
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
   }
 
   onChange(editorState) {
-    this.setState({editorState});
+    this.setState({ editorState });
   }
 
 
