@@ -16,6 +16,20 @@ export default class App extends React.Component {
     e.preventDefault()
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
+  // const socket = io('http://localhost:8080');
+  // componentDidMount() {
+  //   const socket = io('http://localhost:8080');
+  //   socket.on('connect', function() {
+  //     console.log('ws connect')
+  //   });
+  //   socket.on('disconnect', function() {
+  //     console.log('ws disconnect')
+  //   });
+  //   socket.on('msg', function(data) {
+  //     console.log('ws msg:', data);
+  //     socket.emit('cmd', {foo: 123})
+  //   });
+  // }
 
   const socket = io('http://localhost:8080');
   componentDidMount() {
