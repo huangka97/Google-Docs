@@ -34,7 +34,7 @@ export default class App extends React.Component {
 
 
   onChange(editorState) {
-    this.setState({ editorState });
+    this.setState({editorState});
   }
 
 
@@ -55,8 +55,13 @@ export default class App extends React.Component {
   //   });
   // }
 
-
   render() {
+    const {editorState} = this.state;
+    <ColorPicker toggleColor={color => this.picker.addColor(color)} presetColors={presetColors} color={this.picker.currentColor(editorState)}/>
+    <button onClick={this.picker.removeColor}>clear</button>
+    // Optional: you can use an export the color styles if you plan to render html
+    const inlineStyles = this.picker.exporter(editorState);
+    const html = stateToHTML(this.state.editorState.getCurrentContent(), {inlineStyles});
     return (<div>
     <button className="glyphicon glyphicon-bold" onMouseDown={(e) => this.onBoldClick(e)}>BOLD</button>
     <button onMouseDown={(e) =>this.onItalicsClick(e)}>Italics</button>
