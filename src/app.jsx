@@ -34,6 +34,7 @@ export default class App extends React.Component {
 
   render() {
     return (<div>
+      <h1>Text Editor</h1>
       <button onMouseDown={(e) => this._onBoldClick(e)}>BOLD</button>
       <Editor editorState={this.state.editorState} onChange={this.onChange}/>
     </div>);
