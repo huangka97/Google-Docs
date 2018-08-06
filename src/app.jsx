@@ -2,6 +2,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Editor, EditorState, RichUtils} from 'draft-js';
 <RaisedButton color="primary">Bold</RaisedButton>
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +16,7 @@ export default class App extends React.Component {
     e.preventDefault()
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
+
   const socket = io('http://localhost:8080');
   componentDidMount() {
     const socket = io('http://localhost:8080');
@@ -29,6 +31,7 @@ export default class App extends React.Component {
       socket.emit('cmd', {foo: 123})
     });
   }
+
   render() {
     return (<div>
       <button onMouseDown={(e) => this._onBoldClick(e)}>BOLD</button>
