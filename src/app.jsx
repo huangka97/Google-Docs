@@ -5,6 +5,7 @@ import {Editor, EditorState, RichUtils} from 'draft-js';
 <RaisedButton color="primary">Bold</RaisedButton>
 
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,9 +15,19 @@ export default class App extends React.Component {
  //   this.onChange = (editorState) => this.setState({editorState});
   }
 
-  _onBoldClick(e) {
+  onBoldClick(e) {
     e.preventDefault()
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
+  }
+
+  onItalicsClick(e) {
+    e.preventDefault()
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'))
+  }
+
+  onUnderlineClick(e) {
+    e.preventDefault()
+    this.onChange(RichUtils.toggleInLineStyle(this.state.editorState, 'UNDERLINE'))
   }
 
   onChange(editorState) {
@@ -42,7 +53,10 @@ export default class App extends React.Component {
 
   render() {
     return (<div>
-      <Editor editorState={this.state.editorState} placeholder = "This is theditor" onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}}/>
+       <button onMouseDown={(e) => this.onBoldClick(e)}>BOLD</button>
+       <button onMouseDown={(e) =>this.onItalicsClick(e)}>Italics</button>
+       <button onMouseDown={(e) => this.onUnderlineClick(e)}>Underline</button>
+      <Editor editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}}/>
     </div>);
   }
 }
