@@ -4,21 +4,6 @@ import {Editor, EditorState, RichUtils} from 'draft-js';
 
 <RaisedButton color="primary">Bold</RaisedButton>
 
-export default class Editor extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      
-    }
-  }
-  render() {
-    return(
-      <div className = "editor" style={{border: '1px solid black', backgroundColor: 'white', height: 200, width: 400}}>
-
-      </div>
-    )
-  }
-}
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,13 +11,19 @@ export default class App extends React.Component {
     this.state = {
       editorState: EditorState.createEmpty()
     };
-    this.onChange = (editorState) => this.setState({editorState});
+ //   this.onChange = (editorState) => this.setState({editorState});
   }
 
   _onBoldClick(e) {
     e.preventDefault()
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
+
+  onChange(editorState) {
+    this.setState({editorState});
+  }
+
+
   // const socket = io('http://localhost:8080');
   // componentDidMount() {
   //   const socket = io('http://localhost:8080');
@@ -51,9 +42,7 @@ export default class App extends React.Component {
 
   render() {
     return (<div>
-      <h1>Text Editor</h1>
-      <button onMouseDown={(e) => this._onBoldClick(e)}>BOLD</button>
-      <Editor editorState={this.state.editorState} onChange={this.onChange}/>
+      <Editor editorState={this.state.editorState} placeholder = "This is theditor" onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}}/>
     </div>);
   }
 }
