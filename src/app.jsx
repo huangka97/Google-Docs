@@ -1,8 +1,10 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {Editor, Modifier, EditorState, RichUtils} from 'draft-js';
 
 <RaisedButton color="primary">Bold</RaisedButton>
+
+
 
 
 
@@ -12,7 +14,7 @@ export default class App extends React.Component {
     this.state = {
       editorState: EditorState.createEmpty()
     };
- //   this.onChange = (editorState) => this.setState({editorState});
+   // this.onChange = (editorState) => this.setState({editorState});
   }
 
   onBoldClick(e) {
@@ -30,9 +32,12 @@ export default class App extends React.Component {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
   }
 
+
   onChange(editorState) {
     this.setState({ editorState });
   }
+
+
 
 
   // const socket = io('http://localhost:8080');
@@ -53,10 +58,10 @@ export default class App extends React.Component {
 
   render() {
     return (<div>
-       <button onMouseDown={(e) => this.onBoldClick(e)}>BOLD</button>
-       <button onMouseDown={(e) =>this.onItalicsClick(e)}>Italics</button>
-       <button onMouseDown={(e) => this.onUnderlineClick(e)}>Underline</button>
-      <Editor editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}}/>
+    <button className="glyphicon glyphicon-bold" onMouseDown={(e) => this.onBoldClick(e)}>BOLD</button>
+    <button onMouseDown={(e) =>this.onItalicsClick(e)}>Italics</button>
+   <button onMouseDown={(e) => this.onUnderlineClick(e)}>Underline</button>
+    <Editor editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}}/>
     </div>);
   }
 }
