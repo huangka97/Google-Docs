@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class DocPortal extends React.Component {
+class Documents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
