@@ -24,7 +24,25 @@ class Login extends React.Component {
   handleSubmit(event)//submit username and password when button is clicked
   {
     event.preventDefault();//finish this...
-//    fetch("localhost:3000/login")
+    fetch("/login",{
+      method:"POST",
+      credentials:"same-origin",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        username:this.state.username,
+        password:this.state.password
+      })
+
+    }).then((res)=>{res.json()
+
+    }).then((json)=>{
+      if(json.success==="true"){
+
+      }
+    }).catch((err)=>console.log("Error",err))
+
   }
 
   render() {

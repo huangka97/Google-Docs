@@ -26,25 +26,27 @@ class Registration extends React.Component {
 
   handleSubmit(event)//submit username and password and save to database
   {
+
    event.preventDefault();
-//    fetch("localhost:3000/register")
-    /*
-    var newUser = new User (
-    {
-      username: this.state.username,
-      password: this.state.password
-    });
-    newUser.save(function(error)
-    {
-      if (error)
-      {
-        console.log(error);
-      }
-      else
-      {
-        res.redirect("/login");//DOES THIS WORK?????
-      }
-    }*/
+   fetch("/register",{
+     method:"POST",
+     credentials:"same-origin",
+     headers:{
+       "Content-Type":"application/json"
+     },
+     body:JSON.stringify({
+       username:this.state.username,
+       password:this.state.password
+     })
+
+   }).then((res)=>{res.json()
+
+   }).then((json)=>{
+     if(json.success==="true"){
+
+     }
+   }).catch((err)=>console.log("Error",err))
+
   }
 
   render() {
