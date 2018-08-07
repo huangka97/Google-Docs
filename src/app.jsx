@@ -21,6 +21,7 @@ import FormatBold from 'material-ui/svg-icons/editor/format-bold';
 
 import FormatItalic from 'material-ui/svg-icons/editor/format-italic'
 import FormatSize from 'material-ui/svg-icons/editor/format-size'
+import FontPicker from 'font-picker-react';
 
 
 
@@ -60,7 +61,8 @@ export default class App extends React.Component {
     this.state = {
       showPopOver: false,
       showPopOverSize: false,
-      editorState: EditorState.createEmpty()
+      editorState: EditorState.createEmpty(),
+      activeFont: "Open-Sans"
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
@@ -138,7 +140,13 @@ onThirtySixClick(e) {
 
 
   render() {
-    return (<div>
+    return (
+      <div>
+        <FontPicker
+        apiKey='AIzaSyAInS6kxBT6_iwgttwOaXVi4JJDP7k1bEQ'
+        activeFont={this.state.activeFont}
+        onChange={nextFont => this.setState({activeFont: nextFont.family})}/>
+          <div className = "apply-font">
       <FlatButton
         icon = {<FormatColorText/>}
         onMouseDown={(e) => {
@@ -195,6 +203,7 @@ onThirtySixClick(e) {
       <MenuItem primaryText="36" onMouseDown={(e) => this.onThirtySixClick(e)}/>
      </Menu>
    </Popover>
+    </div>
     </div>);
   }
 }
