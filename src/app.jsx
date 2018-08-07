@@ -19,8 +19,10 @@ import FormatColorText from 'material-ui/svg-icons/editor/format-color-text';
 
 import FormatBold from 'material-ui/svg-icons/editor/format-bold';
 
-import FormatItalic from 'material-ui/svg-icons/editor/format-italic'
-import FormatSize from 'material-ui/svg-icons/editor/format-size'
+import FormatItalic from 'material-ui/svg-icons/editor/format-italic';
+import FormatSize from 'material-ui/svg-icons/editor/format-size';
+import FormatAlignLeft from 'material-ui/svg-icons/editor/format-align-left';
+import FormatAlignRight from 'material-ui/svg-icons/editor/format-align-right';
 
 
 
@@ -42,12 +44,21 @@ const styleMap = {
   'FOURTEEN': {
     fontSize: 14
   },
-  'EIGHTEEN': { 
+  'EIGHTEEN': {
      fontSize: 18
   },
 
-  'THIRTYSIX': { 
+  'THIRTYSIX': {
      fontSize: 36
+  },
+  "ALIGNRIGHT":{
+    textAlign:'right'
+  },
+  "ALIGNLEFT":{
+    textAlign:'left'
+  },
+  "ALIGNCENTER":{
+    textAlign:'center'
   }
 };
 
@@ -60,7 +71,9 @@ export default class App extends React.Component {
     this.state = {
       showPopOver: false,
       showPopOverSize: false,
-      editorState: EditorState.createEmpty()
+      showPopOverAlignment:false,
+      editorState: EditorState.createEmpty(),
+      textAlignment:'left'
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
@@ -100,6 +113,8 @@ onTwelveClick(e) {
   e.preventDefault();
   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'TWELVE'));
 }
+
+
 onFourteenClick(e) {
   e.preventDefault();
   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'FOURTEEN'));
@@ -109,11 +124,54 @@ onEighteenClick(e) {
   e.preventDefault();
   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'EIGHTEEN'));
 }
+
+
 onThirtySixClick(e) {
   e.preventDefault();
   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'THIRTYSIX'));
 }
 
+
+onAlignRight(e){
+  e.preventDefault();
+  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"ALIGNRIGHT"));
+}
+
+
+onAlignLeft(e){
+  e.preventDefault();
+  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"ALIGNLEFT"));
+}
+
+
+onAlignCenter(e){
+  e.preventDefault();
+  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"ALIGNCENTER"));
+}
+
+toggleBulletPoints(){
+    this.onChange(
+        RichUtils.toggleBlockType(
+            this.state.editorState,
+            'unordered-list-item'
+        )
+    )
+}
+toggleNumberedPoints(){
+    this.onChange(
+        RichUtils.toggleBlockType(
+            this.state.editorState,
+            'ordered-list-item'
+        )
+    )
+}
+
+// myBlockStyleFn(contentBlock) {
+//   const type = contentBlock.getType();
+//   if (type === 'blockquote') {
+//     return 'superFancyBlockquote';
+//   }
+// }
   onChange(editorState) {
     this.setState({ editorState });
   }
@@ -153,6 +211,14 @@ onThirtySixClick(e) {
         this.setState({showPopOverSize:true, fontMenuEl: e.currentTarget})
       }}></FlatButton>
 
+      <FlatButton//alignment
+        icon = {<FormatAlignLeft/>}
+        onMouseDown={(e) => {
+        e.preventDefault();
+        this.setState({showPopOverAlignment:true, fontMenuEl: e.currentTarget})
+      }}></FlatButton>
+
+
       <FlatButton
         icon = {<FormatBold/>}
         onMouseDown={(e) => this.onBoldClick(e)}>
@@ -165,7 +231,20 @@ onThirtySixClick(e) {
           icon = {<FormatItalic/>}
           onMouseDown={(e) => this.onItalicsClick(e)}>
         </FlatButton>
-    <Editor customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}}/>
+        {/* button for bulleted list */}
+        <FlatButton
+          onMouseDown={(e) => this.toggleBulletPoints(e)}>bulleted List
+        </FlatButton>
+        {/* button for numbered list */}
+        <FlatButton
+          onMouseDown={(e) => this.toggleNumberedPoints(e)}>Numbered List
+        </FlatButton>
+
+
+    <Editor customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}} />
+
+
+
     <Popover
               open={this.state.showPopOver}
               anchorEl={this.state.fontMenuEl}
@@ -195,6 +274,20 @@ onThirtySixClick(e) {
       <MenuItem primaryText="36" onMouseDown={(e) => this.onThirtySixClick(e)}/>
      </Menu>
    </Popover>
+
+   <Popover
+             open={this.state.showPopOverAlignment}
+             anchorEl={this.state.fontMenuEl}
+             anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+             targetOrigin={{horizontal: 'left', vertical: 'top'}}
+             onRequestClose={() => this.setState({showPopOverAlignment: false})}
+           >
+   <Menu>
+     <MenuItem primaryText="Left" onMouseDown={(e) => this.onAlignLeft(e)}/>
+     <MenuItem primaryText="Right" onMouseDown={(e) => this.onAlignRight(e)}/>
+     <MenuItem primaryText="Center" onMouseDown={(e) => this.onAlignCenter(e)}/>
+    </Menu>
+  </Popover>
     </div>);
   }
 }
