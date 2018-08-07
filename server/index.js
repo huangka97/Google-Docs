@@ -1,5 +1,7 @@
 import http from 'http';
-var app = require('express')();
+// var app = require('express')();
+var express = require("express");
+var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
@@ -38,15 +40,18 @@ app.use(session({ secret: process.env.SECRET,
                   store: new MongoStore({mongooseConnection: mongoose.connection})}
                 ));
 
+
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(express.static(path.join(__dirname, ‘public’)));
 
 
 // hashing function with sha 256 algorithm
-function hashPassword(password) {
-  var hash = crypto.createHash('sha256');
-  hash.update(password);
-  return hash.digest('hex');
-}
+// function hashPassword(password) {
+//   var hash = crypto.createHash('sha256');
+//   hash.update(password);
+//   return hash.digest('hex');
+// }
 
 
 // set passport middleware to first try local strategy
@@ -60,9 +65,7 @@ passport.use(new LocalStrategy(
       if (!user.validPassword(password)) {
         return done(null, false, { message: 'Incorrect password.' });
       }
-      if(user.hashPassword === hashPassword(password)) {
           return done(null, user); // success cb
-      }
     });
   }
 ));
@@ -70,34 +73,27 @@ passport.use(new LocalStrategy(
 // session configuration
 passport.serializeUser(function(user, done) {
   done(null, user._id);
-}
+});
 
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(error, user) {
     done(error, user);
-  }
-}
+  })});
 
 // connect passport to express via express middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-server.listen(8080);
 
-io.on('connection', function (socket) {
-  socket.emit('msg', { hello: 'world' });
-  socket.on('cmd', function (data) {
-    console.log(data);
-  });
-});
+// io.on('connection', function (socket) {
+//   socket.emit('msg', { hello: 'world' });
+//   socket.on('cmd', function (data) {
+//     console.log(data);
+//   });
+// });
 
-http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
 
-console.log('Server running at http://127.0.0.1:1337/');
 
 
 
@@ -120,9 +116,9 @@ app.get("/", function(req, res) {
   }
 })
 
-app.get('/login',function(req,res){
-  res.render('login');
-});
+// app.get('/login',function(req,res){
+//   res.render('login');
+// });
 
 app.post('/login',
   passport.authenticate('local', { successRedirect: '/',
@@ -131,11 +127,12 @@ app.post('/login',
 );
 
 
-app.get('/register',function(req,res){
-  res.render('signup');
-})
+// app.get('/register',function(req,res){
+//   res.render('signup');
+// })
 
 app.post("/register", function(req, res) {
+  console.log("BODY IS$$$$$$$$$", req.body)
   if(req.body.username !== null && req.body.password !== null) {
     User.findOne({username: req.body.username, password: req.body.password}, function(error, user) {
       if(error) {
@@ -147,11 +144,13 @@ app.post("/register", function(req, res) {
       } else if(!user) {
         var newUser = new User({
           username: req.body.username,
-          password: hashPassword(req.body.password)
+          password: req.body.password
         })
         newUser.save(function(err) {
           if(err) {
             res.status(500).json({"error": "failed to save user"})
+          } else {
+            res.status(200).json({"success": true})
           }
         })
 
@@ -164,3 +163,6 @@ app.get('/logout',function(req,res){
   req.logout();
   res.redirect('/login');
 })
+
+
+server.listen(8080);

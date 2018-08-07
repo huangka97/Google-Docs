@@ -5,9 +5,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: io(),//this probably isn't necessary
       username: "",
-      password: ""//add empty documents (collaborated on) array?
+      password: "" 
     };
   }
 
@@ -18,7 +17,7 @@ class Login extends React.Component {
 
   handlePassword(event)//get password
   {
-    this.setState({password: event.target.password});
+    this.setState({password: event.target.value});
   }
 
   handleSubmit(event)//submit username and password when button is clicked
@@ -49,8 +48,8 @@ class Login extends React.Component {
     return (
       <div>
         <h1>Login</h1>
-        <input type = "text" placeholder = "Username" onChange = {(event) => this.handleUsername}>
-        <input type = "text" placeholder = "Password" onChange = {(event) => this.handlePassword}>
+        <input type = "text" placeholder = "Username" value={this.state.username} name="username" onChange = {(event) => this.handleUsername(event)}/>
+        <input type = "text" placeholder = "Password" value={this.state.password} name="password" onChange = {(event) => this.handlePassword(event)}/>
         <button className="btn btn-default" onClick = {(event) => this.handleSubmit(event)}>Login</button>
       </div>
     );

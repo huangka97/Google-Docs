@@ -25,6 +25,9 @@ import FormatAlignLeft from 'material-ui/svg-icons/editor/format-align-left';
 import FormatAlignRight from 'material-ui/svg-icons/editor/format-align-right';
 import FontPicker from 'font-picker-react';
 
+import Registration from "./registration"
+
+
 // hello
 
 const styleMap = {
@@ -202,6 +205,7 @@ toggleNumberedPoints(){
   render() {
 
     return (<div>
+      <Registration/>
       <FlatButton
         icon = {<FormatColorText/>}
         onMouseDown={(e) => {
