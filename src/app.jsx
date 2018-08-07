@@ -50,19 +50,20 @@ const styleMap = {
 
   'THIRTYSIX': {
      fontSize: 36
-  },
-  "ALIGNRIGHT":{
-    textAlign:'right'
-  },
-  "ALIGNLEFT":{
-    textAlign:'left'
-  },
-  "ALIGNCENTER":{
-    textAlign:'center'
   }
 };
 
-
+function myBlockStyleFn(contentBlock){
+  console.log("TEST");
+  const type=contentBlock.getType();
+  if (type=='right'){
+    return "right"
+  }else if(type=='left'){
+    return "left"
+  }else if(type=='center'){
+    return "center"
+  }
+}
 
 
 export default class App extends React.Component {
@@ -134,19 +135,20 @@ onThirtySixClick(e) {
 
 onAlignRight(e){
   e.preventDefault();
-  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"ALIGNRIGHT"));
+  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"right"));
 }
 
 
 onAlignLeft(e){
   e.preventDefault();
-  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"ALIGNLEFT"));
+  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"left"));
 }
 
 
 onAlignCenter(e){
   e.preventDefault();
-  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"ALIGNCENTER"));
+  console.log("Entered align center");
+  this.onChange(RichUtils.toggleBlockType(this.state.editorState,"center"));
 }
 
 toggleBulletPoints(){
@@ -241,7 +243,7 @@ toggleNumberedPoints(){
         </FlatButton>
 
 
-    <Editor customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}} />
+    <Editor blockStyleFn={myBlockStyleFn} customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}} />
 
 
 
