@@ -71,6 +71,7 @@
     "font-picker-react": "^2.0.4",
     "material-ui": "^0.20.2",
     "mongoose": "^5.2.7",
+    "mongoose-connect": "0.0.3",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "r": "0.0.5",

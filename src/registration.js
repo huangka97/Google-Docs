@@ -42,9 +42,15 @@ export default class Registration extends React.Component {
      })
 
    })
-   .then((res)=>{res.json()})
+   .then((res)=>(res.json()))
    .then((json)=>{
+     console.log(json);
      if(json.success=== true){
+       console.log("INSIDE IF STATEMENT")
+       this.setState({
+         username:"",
+         password:""
+       })
 
      }
    }).catch((err)=>console.log("Error",err))

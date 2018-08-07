@@ -147,9 +147,11 @@ app.post("/register", function(req, res) {
           password: req.body.password
         })
         newUser.save(function(err) {
+
           if(err) {
             res.status(500).json({"error": "failed to save user"})
           } else {
+            console.log("Full send");
             res.status(200).json({"success": true})
           }
         })

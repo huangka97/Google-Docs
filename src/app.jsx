@@ -79,7 +79,8 @@ export default class App extends React.Component {
       showPopOverAlignment:false,
       editorState: EditorState.createEmpty(),
       textAlignment:'left',
-      activeFont: "Open-Sans"
+      activeFont: "Open-Sans",
+      showEditor:false
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
@@ -205,7 +206,11 @@ toggleNumberedPoints(){
   render() {
 
     return (<div>
+      {this.state.showEditor===false?
+        <div>
       <Registration/>
+      </div>
+        :<div>
       <FlatButton
         icon = {<FormatColorText/>}
         onMouseDown={(e) => {
@@ -302,7 +307,8 @@ toggleNumberedPoints(){
             <MenuItem primaryText="Center" onMouseDown={(e) => this.onAlignCenter(e)}/>
          </Menu>
         </Popover>
+        </div>
       </div>
-    </div>);
+    }</div>);
   }
 }
