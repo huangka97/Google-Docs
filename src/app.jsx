@@ -245,7 +245,7 @@ toggleNumberedPoints(){
           onMouseDown={(e) => this.toggleNumberedPoints(e)}>Numbered List
         </FlatButton>
         <FontPicker
-          apiKey = process.env.FONTAPI
+          apiKey = {process.env.FONTAPI}
           activeFont = {this.state.activeFont}
           onChange = {nextFont => this.setState({activeFont: nextFont.family})}/>
           <div className="apply-font">
