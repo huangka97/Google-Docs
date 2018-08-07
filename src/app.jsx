@@ -202,11 +202,6 @@ toggleNumberedPoints(){
   render() {
 
     return (<div>
-      <FontPicker
-        apiKey = "AIzaSyAInS6kxBT6_iwgttwOaXVi4JJDP7k1bEQ"
-        activeFont = {this.state.activeFont}
-        onChange = {nextFont => this.setState({activeFont: nextFont.family})}/>
-        <div className="apply-font">
       <FlatButton
         icon = {<FormatColorText/>}
         onMouseDown={(e) => {
@@ -249,6 +244,11 @@ toggleNumberedPoints(){
         <FlatButton
           onMouseDown={(e) => this.toggleNumberedPoints(e)}>Numbered List
         </FlatButton>
+        <FontPicker
+          apiKey = "AIzaSyAInS6kxBT6_iwgttwOaXVi4JJDP7k1bEQ"
+          activeFont = {this.state.activeFont}
+          onChange = {nextFont => this.setState({activeFont: nextFont.family})}/>
+          <div className="apply-font">
 
 
     <Editor blockStyleFn={myBlockStyleFn} customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}} />
