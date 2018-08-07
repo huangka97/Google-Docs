@@ -62,8 +62,8 @@ export default class Registration extends React.Component {
       <div>
         <h1>Register</h1>
         <input type = "text" placeholder = "username" name="username" onChange = {(event) => this.handleUsername(event)} value={this.state.username}/>
-        <input type = "text" placeholder = "password" name="password" onChange = {(event) => this.handlePassword(event)} value={this.state.password} />
-        <button className="btn btn-default" onClick = {(event) => this.handleSubmit(event)}>Login</button>
+        <input type = "password" placeholder = "password" name="password" onChange = {(event) => this.handlePassword(event)} value={this.state.password} />
+        <button className="btn btn-default" onClick = {(event) => this.handleSubmit(event)}>Register</button>
       </div>
     )
   }
