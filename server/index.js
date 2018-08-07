@@ -41,6 +41,14 @@ app.use(session({ secret: process.env.SECRET,
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
+// hashing function with sha 256 algorithm
+function hashPassword(password) {
+  var hash = crypto.createHash('sha256');
+  hash.update(password);
+  return hash.digest('hex');
+}
+
+
 // set passport middleware to first try local strategy
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -52,7 +60,9 @@ passport.use(new LocalStrategy(
       if (!user.validPassword(password)) {
         return done(null, false, { message: 'Incorrect password.' });
       }
-      return done(null, user); // success cb
+      if(user.hashPassword === hashPassword(password)) {
+          return done(null, user); // success cb
+      }
     });
   }
 ));
@@ -90,12 +100,6 @@ http.createServer((req, res) => {
 console.log('Server running at http://127.0.0.1:1337/');
 
 
-// hashing function with sha 256 algorithm
-function hashPassword(password) {
-  var hash = crypto.createHash('sha256');
-  hash.update(password);
-  return hash.digest('hex');
-}
 
 
 // passport
@@ -143,7 +147,7 @@ app.post("/register", function(req, res) {
       } else if(!user) {
         var newUser = new User({
           username: req.body.username,
-          password: req.body.password
+          password: hashPassword(req.body.password)
         })
         newUser.save(function(err) {
           if(err) {
