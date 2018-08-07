@@ -25,7 +25,7 @@ import FormatAlignLeft from 'material-ui/svg-icons/editor/format-align-left';
 import FormatAlignRight from 'material-ui/svg-icons/editor/format-align-right';
 import FontPicker from 'font-picker-react';
 
-
+// hello
 
 const styleMap = {
   'REDFONT': {
