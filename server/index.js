@@ -9,12 +9,21 @@ var LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(function(user, pass, cb){...});
 
 // session configuration
-passport.serializeUser(...);
-passport.deserializeUser(...);
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+}
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(error, user) {
+    done(error, user);
+  }
+}
 
 // connect passport to express via express middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 server.listen(8080);
 io.on('connection', function (socket) {
   socket.emit('msg', { hello: 'world' });
