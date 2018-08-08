@@ -26,7 +26,7 @@ import FormatAlignRight from 'material-ui/svg-icons/editor/format-align-right';
 import FontPicker from 'font-picker-react';
 
 import Registration from "./registration"
-
+import Login from "./login"
 
 // hello
 
@@ -80,10 +80,32 @@ export default class App extends React.Component {
       editorState: EditorState.createEmpty(),
       textAlignment:'left',
       activeFont: "Open-Sans",
-      showEditor:false
+      showEditor:false,
+      showRegister:false,
+      showLogin:false
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
+
+  toggleLogin(e){
+    e.preventDefault();
+    this.setState({
+      showLogin:!this.state.showLogin
+
+    })
+  }
+  toggleRegister(e){
+
+    e.preventDefault();
+    //console.log("ENTERED TOGGLEREGISTER")
+    this.setState({
+      showRegister:!this.state.showRegister,
+      showEditor:!this.state.showEditor
+    })
+    //console.log(this.state.showRegister);
+
+  }
+
 
   onBoldClick(e) {
     e.preventDefault();
@@ -206,11 +228,14 @@ toggleNumberedPoints(){
   render() {
 
     return (<div>
-      {this.state.showEditor===false?
-        <div>
-      <Registration/>
-      </div>
-        :<div>
+
+      {!this.state.showEditor && !this.state.showLogin?<div>
+      <Registration loginFunction={(e)=>this.toggleLogin(e)}/>
+    </div>: (!this.state.showEditor) && this.state.showLogin?
+    <div>
+      <Login registerFunction={(e)=>this.toggleRegister(e)}/>
+    </div>:
+    <div>
       <FlatButton
         icon = {<FormatColorText/>}
         onMouseDown={(e) => {
@@ -287,7 +312,7 @@ toggleNumberedPoints(){
            onRequestClose={() => this.setState({showPopOverSize: false})}
          >
     <Menu>
-      <MenuItem primaryText="12" onMouseDown={(e) => this.onTwelveClick(e)}/>
+      <MenuItem primaryText="12" onMouseDown={e => this.onTwelveClick(e)}/>
       <MenuItem primaryText="14" onMouseDown={(e) => this.onFourteenClick(e)}/>
       <MenuItem primaryText="18" onMouseDown={(e) => this.onEighteenClick(e)}/>
       <MenuItem primaryText="36" onMouseDown={(e) => this.onThirtySixClick(e)}/>
@@ -308,7 +333,9 @@ toggleNumberedPoints(){
          </Menu>
         </Popover>
         </div>
-      </div>
+
+
+      </div>}
     }</div>);
   }
 }

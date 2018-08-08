@@ -57,17 +57,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // set passport middleware to first try local strategy
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); } // server error since done is given non-null
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+    User.findOne({ username: username }, function(err, user) {
+      if (err) {
+        done(err);
+      } else if (user && user.password === password) {
+        done(null, user);
+      } else {
+        done(null);
       }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-          return done(null, user); // success cb
     });
   }
+  //   User.findOne({ username: username }, function (err, user) {
+  //     if (err) { return done(err); } // server error since done is given non-null
+  //     else if (!user) {
+  //       return done(null, false, { message: 'Incorrect username.' });
+  //     }
+  //     if (!user.validPassword(password)) {
+  //       return done(null, false, { message: 'Incorrect password.' });
+  //     }
+  //         return done(null, user); // success cb
+  //   });
+  // }
 ));
 
 // session configuration
@@ -120,11 +130,23 @@ app.get("/", function(req, res) {
 //   res.render('login');
 // });
 
-app.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
-);
+// app.post('/login',
+//   passport.authenticate('local', { successRedirect: '/',
+//                                    failureRedirect: '/login',
+//                                    failureFlash: true })
+// );
+
+app.post('/login', function(req,res,next){
+  passport.authenticate('local', function(err,user){
+    if(err){
+      return res.status(500).json({"error": err})
+    }else if(!user){
+      return res.status(400).json({"error": "no user"})
+    }else{
+      return res.status(200).json({"success": true})
+    }
+  })(req, res, next);
+});
 
 
 // app.get('/register',function(req,res){
@@ -132,7 +154,6 @@ app.post('/login',
 // })
 
 app.post("/register", function(req, res) {
-  console.log("BODY IS$$$$$$$$$", req.body)
   if(req.body.username !== null && req.body.password !== null) {
     User.findOne({username: req.body.username, password: req.body.password}, function(error, user) {
       if(error) {
@@ -151,7 +172,6 @@ app.post("/register", function(req, res) {
           if(err) {
             res.status(500).json({"error": "failed to save user"})
           } else {
-            console.log("Full send");
             res.status(200).json({"success": true})
           }
         })

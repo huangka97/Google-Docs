@@ -29,7 +29,6 @@ export default class Registration extends React.Component {
   {
 
    event.preventDefault();
-   console.log("MAKING REQUEST TO REGISTER");
    fetch("http://localhost:8080/register",{
      method:"POST",
      credentials:"same-origin",
@@ -46,14 +45,16 @@ export default class Registration extends React.Component {
    .then((json)=>{
      console.log(json);
      if(json.success=== true){
-       console.log("INSIDE IF STATEMENT")
        this.setState({
          username:"",
          password:""
        })
+       this.props.loginFunction(event);
 
      }
-   }).catch((err)=>console.log("Error",err))
+   })
+   .catch((err)=>console.log("Error",err))
+
 
   }
 

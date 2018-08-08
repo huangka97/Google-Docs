@@ -6,7 +6,7 @@ class Login extends React.Component {
     super(props);
     this.state = {
       username: "",
-      password: "" 
+      password: ""
     };
   }
 
@@ -22,8 +22,9 @@ class Login extends React.Component {
 
   handleSubmit(event)//submit username and password when button is clicked
   {
+    console.log("ENTERED LOGIN HANDLE SUBMIT");
     event.preventDefault();//finish this...
-    fetch("/login",{
+    fetch("http://localhost:8080/login",{
       method:"POST",
       credentials:"same-origin",
       headers:{
@@ -33,14 +34,23 @@ class Login extends React.Component {
         username:this.state.username,
         password:this.state.password
       })
-
-    }).then((res)=>{res.json()
-
-    }).then((json)=>{
-      if(json.success==="true"){
-
+    })
+    .then((res)=>{
+      console.log("RES IS", res);
+      return res.json()
+    })
+    .then((json)=>{
+      console.log("JSON ISSSSSSSSS", json);
+      if(json.success === true) {
+        this.setState({
+          username:"",
+          password:""
+        })
+        this.props.registerFunction(event);
       }
-    }).catch((err)=>console.log("Error",err))
+
+    })
+    .catch((err)=>console.log("Error",err))
 
   }
 
