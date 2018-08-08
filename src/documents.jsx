@@ -18,7 +18,9 @@ export default class Documents extends React.Component {
     this.state = {
       title: "",
       password: "",
-      userDocs:[]
+      userDocs:[],
+      userCollabs: [],
+      sharedUrl: ""
     };
   }
   componentDidMount(){
@@ -42,6 +44,7 @@ export default class Documents extends React.Component {
   {
     this.setState({title: event.target.value});
   }
+
 
   handleDocPassword(event)//get input for doc title
   {
@@ -91,7 +94,7 @@ export default class Documents extends React.Component {
 
   handleDocID(event)
   {
-    this.setState({docsToCreate: event.target.value});
+    this.setState({sharedUrl: event.target.value});
   }
 
   addSharedDoc(event)//create document when button is pressed
@@ -119,7 +122,7 @@ export default class Documents extends React.Component {
         <input type = "text" placeholder = "New document title" name = "title" onChange = {(event) => this.handleDocTitle(event)} value={this.state.title}/>
         <input type = "password" placeholder = "New document password" name = "password" onChange = {(event) => this.handleDocPassword(event)} value={this.state.password}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
-        <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID(event)}/>
+        <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID(event)} value={this.state.sharedUrl}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
         <DocumentList docList = {this.state.userDocs} />
       </div>
