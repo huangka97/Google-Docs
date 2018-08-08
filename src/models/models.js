@@ -11,11 +11,11 @@ var UserSchema = new Schema(
       type: String,
       required: true
     },
-    ownersDocs: [{
+    usersDocs: [{//docsa user has created
       type: mongoose.Schema.ObjectId,
       ref: "Document"
     }],
-    ownersCollabs: [{
+    usersCollabs: [{//user's accessible documents he/she has not created
       type: mongoose.Schema.ObjectId,
       ref: "Document"
     }]
@@ -28,19 +28,23 @@ var DocumentSchema = new Schema(
       type: String,
       required: true
     },
-    password: {
+    password: {//each doc needs a password to access
       type: String,
       required: true
     },
-    url: {
+    contents: {//contents of document
+      type: String,
+      required: true
+    },
+    url: {//document ID -- same as Mongo
       type: mongoose.Schema.ObjectId,
       required: true
     },
-    ownerOfDoc: {
+    ownerOfDoc: {//creator of document
       type: mongoose.Schema.ObjectId,
       ref: "User"
     },
-    collabsOfDoc: [{
+    collabsOfDoc: [{//everyone who collaborated on this document
       type: mongoose.Schema.ObjectId,
       ref: "User"
     }]
