@@ -36,6 +36,8 @@ import FontPicker from 'font-picker-react';
 import Registration from "./registration"
 import Login from "./login"
 
+import Documents from "./documents"
+
 // hello
 
 const styleMap = {
@@ -90,7 +92,8 @@ export default class App extends React.Component {
       activeFont: "Open-Sans",
       showEditor:false,
       showRegister:false,
-      showLogin:false
+      showLogin:false,
+      showDocuments: false
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
@@ -112,6 +115,13 @@ export default class App extends React.Component {
     })
     //console.log(this.state.showRegister);
 
+  }
+
+  toggleDocuments(e) {
+    e.preventDefault();
+    this.setState({
+      showDocuments: !this.state.showDocuments
+    })
   }
 
 
@@ -242,7 +252,10 @@ toggleNumberedPoints(){
     </div>: (!this.state.showEditor) && this.state.showLogin?
     <div>
       <Login registerFunction={(e)=>this.toggleRegister(e)}/>
-    </div>:
+    </div>: this.state.showEditor && this.state.showRegister && !this.state.showDocuments?
+    <div>
+      <Documents documentFunction={(e)=>this.toggleDocuments(e)}/>
+    </div> :
     <div>
       <FlatButton
         icon = {<FormatColorText/>}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class Documents extends React.Component {
+export default class Documents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +20,7 @@ class Documents extends React.Component {
   {
     event.preventDefault();//finish this...
 //    fetch("")
+  this.props.documentFunction(event);
   }
 
   handleDocID(event)
@@ -42,18 +43,10 @@ class Documents extends React.Component {
         <h1>Documents Portal</h1>
         <input type = "text" placeholder = "New document title" onChange = {(event) => this.handleDocTitle}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
-
-        <ul>{this.state.documents.map((doc) => <li>{doc}</li>}</ul>
-
-
+        {/* <ul>{this.state.documents.map((doc) => <li>{doc}</li>}</ul> */}
         <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
       </div>
     );
   }
 }
-
-
-//LESSONS: USE ARROW FUNCTIONS INSTEAD OF BIND, ALWAYS RETURN (, FORMS ARE RETARDED:
-
-export default DocPortal;

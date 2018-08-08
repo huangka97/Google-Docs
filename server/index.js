@@ -7,7 +7,9 @@ var io = require('socket.io')(server);
 
 // models required
 
-var User = require("../src/models/models").User
+var User = require("../src/models/models").User;
+
+var Document = require("../src/models/models").Document;
 
 
 
@@ -136,14 +138,31 @@ app.get("/", function(req, res) {
 //                                    failureFlash: true })
 // );
 
-app.post('/login', function(req,res,next){
-  passport.authenticate('local', function(err,user){
-    if(err){
-      return res.status(500).json({"error": err})
-    }else if(!user){
-      return res.status(400).json({"error": "no user"})
-    }else{
-      return res.status(200).json({"success": true})
+// app.post('/login', function(req,res,next){
+//   passport.authenticate('local', function(err,user){
+//     if(err){
+//       return res.status(500).json({"error": err})
+//     }else if(!user){
+//       return res.status(400).json({"error": "no user"})
+//     }else{
+//       return res.status(200).json({"success": true})
+//     }
+//   })(req, res, next);
+// });
+
+
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err || !user) {
+      res.status(500).json({"success": false, "message": 'err or bad user/pass'});
+    } else {
+      req.login(user, (err) => {
+        if(err) {
+           res.status(500).json({"success": false, "err": err});
+        } else {
+           res.status(200).json({"success": true});
+        }
+      })
     }
   })(req, res, next);
 });
