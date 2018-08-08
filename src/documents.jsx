@@ -5,8 +5,8 @@ export default class Documents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      docToCreateTitle: "",
-      docToCreatePassword: "",
+      title: "",
+      password: "",
       documents: [],
       docID: ""
     };
@@ -14,26 +14,26 @@ export default class Documents extends React.Component {
 
   handleDocTitle(event)//get input for doc title
   {
-    this.setState({docToCreateTitle: event.target.value});
+    this.setState({title: event.target.value});
   }
 
   handleDocPassword(event)//get input for doc title
   {
-    this.setState({docToCreatePassword: event.target.value});
+    this.setState({password: event.target.value});
   }
 
   createDoc(event)//create document when button is pressed
   {
     event.preventDefault();//finish this...
-    console.log("TITLE====", this.state.docToCreateTitle);
-    console.log("PASS====", this.state.docToCreatePassword);
+    console.log("TITLE====", this.state.title);
+    console.log("PASS====", this.state.password);
     fetch("http://localhost:8080/create", {
       method: "POST",
       credentials: "same-origin",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
-        title: this.state.docToCreateTitle,
-        password: this.state.docToCreatePassword,
+        title: this.state.title,
+        password: this.state.password,
         contents: "",
         url: "",
         ownerOfDoc: "",
@@ -48,9 +48,10 @@ export default class Documents extends React.Component {
        console.log("DOCUMENT JSON IS ", json);
        if (json.success === true)
        {
+         console.log("In the if statement!");
          this.setState({
-           docToCreateTitle: "",
-           docToCreatePasssword: "",
+           title: "",
+           password: "",
          });
         //INSERT TOGGLE TO GET TO EDITOR
        }
@@ -81,7 +82,7 @@ export default class Documents extends React.Component {
         <input type = "password" placeholder = "New document password" name = "password" onChange = {(event) => this.handleDocPassword(event)} value={this.state.password}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
         {/* <ul>{this.state.documents.map((doc) => <li>{doc}</li>}</ul> */}
-        <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID}/>
+        <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID(event)}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
       </div>
     );
