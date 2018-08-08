@@ -75,8 +75,8 @@ export default class Documents extends React.Component {
     return (
       <div>
         <h1>Documents Portal</h1>
-        <input type = "text" placeholder = "New document title" onChange = {(event) => this.handleDocTitle}/>
-        <input type = "password" placeholder = "New document password" onChange = {(event) => this.handleDocPassword}/>
+        <input type = "text" placeholder = "New document title" name = "title" onChange = {(event) => this.handleDocTitle}/>
+        <input type = "password" placeholder = "New document password" name = "password" onChange = {(event) => this.handleDocPassword}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
         {/* <ul>{this.state.documents.map((doc) => <li>{doc}</li>}</ul> */}
         <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID}/>
