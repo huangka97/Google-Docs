@@ -32,14 +32,8 @@ var DocumentSchema = new Schema(
       type: String,
       required: true
     },
-    contents: {//contents of document
-      type: String,
-      required: true
-    },
-    url: {//document ID -- same as Mongo
-      type: mongoose.Schema.ObjectId,
-      required: true
-    },
+    contents: String,
+    url: String,
     ownerOfDoc: {//creator of document
       type: mongoose.Schema.ObjectId,
       ref: "User"

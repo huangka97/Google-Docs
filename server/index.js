@@ -225,14 +225,16 @@ app.post("/create", function(req, res) {
 
         })
 
+        console.log("DOCUMENT IS", newDocument);
+
         newDocument.save(function(err) {
           if(err) {
             console.log("error saving new document", err);
             res.status(500).json({"error": "cannot save document"})
           } else {
             console.log("successfully saved doc");
-            document.url = document._id;
-            res.status(200).json({"success": true, "Document": document})
+            newDocument.url = newDocument._id
+            res.status(200).json({"success": true})
           }
         })
       }

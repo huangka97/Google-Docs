@@ -45,7 +45,7 @@ export default class Documents extends React.Component {
        return res.json();
      })
      .then((json) => {
-       console.log("DOCUMENT JSON IS ": json);
+       console.log("DOCUMENT JSON IS ", json);
        if (json.success === true)
        {
          this.setState({
