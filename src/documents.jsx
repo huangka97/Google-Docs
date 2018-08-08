@@ -7,9 +7,7 @@ export default class Documents extends React.Component {
     this.state = {
       title: "",
       password: "",
-      documents: [],
-      userDocs:[],
-      docID: ""
+      userDocs:[]
     };
   }
   componentDidMount(){
@@ -20,12 +18,12 @@ export default class Documents extends React.Component {
     })
     .then((res)=>(res.json()))
     .then((json)=>{
+      console.log("JSON IN COMPONENT DID MOUNT",json);
       if(json.success===true){
-        let userDocsCopy = this.state.userDocs.slice();
-        userDocsCopy.push(json.user);
-        this.setState({
-          userDocs: userDocsCopy
-        })
+        //populated user docs now
+          this.setState({
+            userDocs: json.user.usersDocs
+          })
       }
     })
   }
@@ -63,12 +61,16 @@ export default class Documents extends React.Component {
      })
      .then((json) => {
        // console.log("DOCUMENT JSON IS ", json);
+       console.log("JSON AFTER ADDED DOC", json);
        if (json.success === true)
        {
          // console.log("In the if statement!");
+         var userDocsCopy = this.state.userDocs.slice();
+         userDocsCopy.push(json.document);
          this.setState({
            title: "",
            password: "",
+           userDocs: userDocsCopy
          });
         //INSERT TOGGLE TO GET TO EDITOR
        }
@@ -92,13 +94,21 @@ export default class Documents extends React.Component {
 
 
   render() {
+    // const renderDocs = () => {
+    //   return this.state.usersDocs.map((doc, i) => {
+    //     return (
+    //       <h1 key={i}>{doc.title}</h1>
+    //     );
+    //   });
+    // }
+    // console.log(this.state);
     return (
       <div>
         <h1>Documents Portal</h1>
         <input type = "text" placeholder = "New document title" name = "title" onChange = {(event) => this.handleDocTitle(event)} value={this.state.title}/>
         <input type = "password" placeholder = "New document password" name = "password" onChange = {(event) => this.handleDocPassword(event)} value={this.state.password}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
-        {/* <ul>{this.state.documents.map((doc) => <li>{doc}</li>}</ul> */}
+        {/* <ul>{this.state.userDocs.map((doc) => <li>{doc}</li>}</ul> */}
         <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID(event)}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
       </div>

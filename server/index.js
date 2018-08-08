@@ -220,10 +220,13 @@ app.post("/register", function(req, res) {
 
 app.get("/user", function(req, res) {
   if(!req.user) {
-    throw "Error, you are not logged in"
+    throw "Error, you are not logged in";
   } else {
-    req.user.populate("usersDocs");
-    res.status(200).json({"success": true, "user": req.user})
+    // const populated = req.user.populate('usersDocs');
+    // console.log(req.user);
+    User.findById(req.user._id).populate('usersDocs').then(user => {
+      res.status(200).json({"success": true, user});
+    });
   }
 })
 
@@ -262,11 +265,44 @@ app.post("/create", function(req, res) {
               res.status(200).json({"success": true, "document": document})
             });
 
-          }).catch(e => res.send(e))
+          })
+          .catch(e => res.send(e))
       }
     })
   }
 })
+
+
+// Backend route to create a new document--fetch request made in docs.jsx
+
+// app.post("/create", async function(req, res) {
+//   if(req.body.title !== null && req.body.password !== null) {
+//     try {
+//       let document = await Document.findOne({title: req.body.title});
+//       if(document) {
+//         res.status(400).json({"error": "Document title already taken"})
+//       }
+//       let newDocument = new Document({
+//             title: req.body.title,
+//             password: req.body.password,
+//             contents: "",
+//             url: "",
+//             ownerOfDoc: req.user._id,
+//             collabsOfDoc: []
+//       });
+//       newDocument = await newDocument.save();
+//       req.user.usersDocs.push(newDocument);
+//       await req.user.save();
+//       res.status(200).json({ success: 'true', document: newDocument });
+//     } catch(e) {
+//       console.log(e);
+//       res.status(400).send(e);
+//     }
+//
+//
+//   }
+// })
+
 
 app.get('/logout',function(req,res){
   req.logout();
