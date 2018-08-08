@@ -23,6 +23,14 @@ import FormatItalic from 'material-ui/svg-icons/editor/format-italic';
 import FormatSize from 'material-ui/svg-icons/editor/format-size';
 import FormatAlignLeft from 'material-ui/svg-icons/editor/format-align-left';
 import FormatAlignRight from 'material-ui/svg-icons/editor/format-align-right';
+
+import FormatListBulleted from 'material-ui/svg-icons/editor/format-list-bulleted';
+
+import FormatListNumbered from 'material-ui/svg-icons/editor/format-list-numbered';
+
+
+
+
 import FontPicker from 'font-picker-react';
 
 import Registration from "./registration"
@@ -270,13 +278,13 @@ toggleNumberedPoints(){
           icon = {<FormatItalic/>}
           onMouseDown={(e) => this.onItalicsClick(e)}>
         </FlatButton>
-        {/* button for bulleted list */}
         <FlatButton
-          onMouseDown={(e) => this.toggleBulletPoints(e)}>bulleted List
+          icon = {<FormatListBulleted/>}
+          onMouseDown={(e) => this.toggleBulletPoints(e)}>
         </FlatButton>
-        {/* button for numbered list */}
         <FlatButton
-          onMouseDown={(e) => this.toggleNumberedPoints(e)}>Numbered List
+          icon={<FormatListNumbered/>}
+          onMouseDown={(e) => this.toggleNumberedPoints(e)}>
         </FlatButton>
         <FontPicker
           apiKey = {process.env.FONTAPI}
@@ -336,6 +344,6 @@ toggleNumberedPoints(){
 
 
       </div>}
-    }</div>);
+    </div>);
   }
 }
