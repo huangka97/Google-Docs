@@ -25,8 +25,8 @@ export default class Documents extends React.Component {
   createDoc(event)//create document when button is pressed
   {
     event.preventDefault();//finish this...
-    console.log("TITLE====", this.state.title);
-    console.log("PASS====", this.state.password);
+    // console.log("TITLE====", this.state.title);
+    // console.log("PASS====", this.state.password);
     fetch("http://localhost:8080/create", {
       method: "POST",
       credentials: "same-origin",
@@ -41,14 +41,14 @@ export default class Documents extends React.Component {
       })
     })
     .then((res) => {
-      console.log("DOCUMENT RES IS: ", res);
+      // console.log("DOCUMENT RES IS: ", res);
        return res.json();
      })
      .then((json) => {
-       console.log("DOCUMENT JSON IS ", json);
+       // console.log("DOCUMENT JSON IS ", json);
        if (json.success === true)
        {
-         console.log("In the if statement!");
+         // console.log("In the if statement!");
          this.setState({
            title: "",
            password: "",

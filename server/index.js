@@ -200,13 +200,28 @@ app.post("/register", function(req, res) {
   }
 })
 
+//Backend route to get all of the documents user has/collaborates on
+
+// app.get("/documents", function(req, res) {
+//   User.findById(req.user._id, function(error, user) {
+//     if(error) {
+//       console.log("error finding that user", error);
+//       res.status(500).json({"error": "error finding that user to fetch documents"})
+//     } else if(!user) {
+//       console.log("cannot find that user");
+//       res.status(400).json({"error": "cannot find that user"})
+//     } else {
+//
+//     }
+//   })
+// })
 
 // Backend route to create a new document--fetch request made in docs.jsx
 
 app.post("/create", function(req, res) {
-  console.log("REQ BODY==========", req.body);
+  // console.log("REQ BODY==========", req.bod
   if(req.body.title !== null && req.body.password !== null) {
-
+    console.log("USER IS", req.user);
     Document.findOne({title: req.body.title}, function(error, document) {
       if(error) {
         console.log("Error finding a doc", error);
@@ -228,7 +243,7 @@ app.post("/create", function(req, res) {
         console.log("DOCUMENT IS", newDocument);
 
         newDocument.url = newDocument._id;
-        console.log("***", newDocument);
+        // console.log("***", newDocument);
         newDocument.save(function(err) {
           if(err) {
             console.log("error saving new document", err);
