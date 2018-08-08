@@ -273,6 +273,51 @@ app.post("/create", function(req, res) {
 })
 
 
+// Backend route to allow for user to become a collaborator after they get sent the url
+
+app.post("/share", function(req, res) {
+  if(req.body.sharedUrl !== null) {
+    Document.findOne({_id: req.body.sharedUrl}, function(error, doc) {
+      if(error) {
+        console.log("problem finding url");
+        res.status(500).json({"error": "problem finding url"})
+      } else if(!doc) {
+        console.log("cannot find doc with that url");
+        res.status(400).json({"error": "cannot find that document"})
+      } else {
+        doc.collabsOfDoc.push(req.user);
+        doc.save(function(err) {
+          if(err) {
+            console.log("couldn't save the updated doc")
+            res.status(500).json({"error": "could not update the users on that doc"})
+          } else {
+            console.log("updated collaborators!");
+            User.findOne({_id:req.user._id},function(err,user){
+              if(err){
+                console.log("problem finding user");
+                res.status(500).json({"error":"problem finding user"})
+              } else if(!user){
+                console.log("cannot find user with that id");
+                res.status(400).json({"error":'cannot find that user'})
+              } else{
+                user.usersCollabs.push(doc.url);
+                user.save(function(er) {
+                  if(er) {
+                    console.log("problem saving user");
+                    res.status(500).json({"error": "problem saving user"})
+                  } else {
+                    res.status(200).json({"success": true})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
+  }
+})
+
 // Backend route to create a new document--fetch request made in docs.jsx
 
 // app.post("/create", async function(req, res) {
