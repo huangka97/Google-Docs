@@ -206,6 +206,7 @@ app.post("/register", function(req, res) {
 app.post("/create", function(req, res) {
   console.log("REQ BODY==========", req.body);
   if(req.body.title !== null && req.body.password !== null) {
+
     Document.findOne({title: req.body.title}, function(error, document) {
       if(error) {
         console.log("Error finding a doc", error);
@@ -218,12 +219,13 @@ app.post("/create", function(req, res) {
           title: req.body.title,
           password: req.body.password,
           contents: "",
-          ownerofDoc: req.user._id,
-          collabsofDoc: []
+          url: "",
+          ownerOfDoc: req.user._id,
+          collabsOfDoc: []
 
         })
 
-        newDocument.save(function(err, document) {
+        newDocument.save(function(err) {
           if(err) {
             console.log("error saving new document", err);
             res.status(500).json({"error": "cannot save document"})
