@@ -1,5 +1,16 @@
 import React from 'react';
 
+class DocumentList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return(
+      <ul>{this.props.docList.map((doc) => <li>{doc.title}</li>)}</ul>
+    )
+  }
+}
+
 
 export default class Documents extends React.Component {
   constructor(props) {
@@ -108,9 +119,9 @@ export default class Documents extends React.Component {
         <input type = "text" placeholder = "New document title" name = "title" onChange = {(event) => this.handleDocTitle(event)} value={this.state.title}/>
         <input type = "password" placeholder = "New document password" name = "password" onChange = {(event) => this.handleDocPassword(event)} value={this.state.password}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
-        {/* <ul>{this.state.userDocs.map((doc) => <li>{doc}</li>}</ul> */}
         <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID(event)}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
+        <DocumentList docList = {this.state.userDocs} />
       </div>
     );
   }
