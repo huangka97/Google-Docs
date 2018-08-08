@@ -224,7 +224,7 @@ app.get("/user", function(req, res) {
   } else {
     // const populated = req.user.populate('usersDocs');
     // console.log(req.user);
-    User.findById(req.user._id).populate('usersDocs').then(user => {
+    User.findById(req.user._id).populate('usersDocs').populate('usersCollabs').then(user => {
       res.status(200).json({"success": true, user});
     });
   }
@@ -306,7 +306,7 @@ app.post("/share", function(req, res) {
                     console.log("problem saving user");
                     res.status(500).json({"error": "problem saving user"})
                   } else {
-                    res.status(200).json({"success": true})
+                    res.status(200).json({"success": true, "shared": user.usersCollabs})
                   }
                 })
               }

@@ -46,7 +46,8 @@ export default class Documents extends React.Component {
       if(json.success===true){
         //populated user docs now
           this.setState({
-            userDocs: json.user.usersDocs
+            userDocs: json.user.usersDocs,
+            userCollabs:json.user.usersCollabs
           })
       }
     })
@@ -124,12 +125,16 @@ export default class Documents extends React.Component {
        return res.json();
      })
      .then((json) => {
+
         console.log("SHARED JSON IS ", json);
-       if (json.success === true)
-       {
-         this.setState({sharedUrl: ""});
-       }
-     })
+       if (json.success === true){
+       let usersCollabs1=this.state.userCollabs.slice();
+       usersCollabs1.push(json.shared);
+         this.setState({sharedUrl: "",
+         usersCollabs: usersCollabs1
+       });
+     }
+   })
      .catch((error) => console.log("Error: ", error));
    }
 
