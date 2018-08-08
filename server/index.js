@@ -204,6 +204,7 @@ app.post("/register", function(req, res) {
 // Backend route to create a new document--fetch request made in docs.jsx
 
 app.post("/create", function(req, res) {
+  console.log("REQ BODY==========", req.body);
   if(req.body.title !== null && req.body.password !== null) {
     Document.findOne({title: req.body.title}, function(error, document) {
       if(error) {
@@ -216,9 +217,9 @@ app.post("/create", function(req, res) {
         var newDocument = new Document({
           title: req.body.title,
           password: req.body.password,
-          contents: req.body.contents,
+          contents: "",
           ownerofDoc: req.user._id,
-          collabsofDoc: req.body.collabsofDoc
+          collabsofDoc: []
 
         })
 
