@@ -216,6 +216,17 @@ app.post("/register", function(req, res) {
 //   })
 // })
 
+//Backend route to check if user logged in
+
+app.get("/user", function(req, res) {
+  if(!req.user) {
+    throw "Error, you are not logged in"
+  } else {
+    req.user.populate("usersDocs");
+    res.status(200).json({"success": true, "user": req.user})
+  }
+})
+
 // Backend route to create a new document--fetch request made in docs.jsx
 
 app.post("/create", function(req, res) {
