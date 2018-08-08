@@ -11,6 +11,17 @@ class DocumentList extends React.Component {
   }
 }
 
+class SharedList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return(
+      <ul>{this.props.sharedList.map((doc) => <li>{doc.title}</li>)}</ul>
+    )
+  }
+}
+
 
 export default class Documents extends React.Component {
   constructor(props) {
@@ -122,7 +133,6 @@ export default class Documents extends React.Component {
      .catch((error) => console.log("Error: ", error));
    }
 
-  }
 
 //LINKS OF DOCUMENTS SHOULD BE CLICKABLE AND REDIRECT CORRECTLY
 ///create is the route
@@ -146,6 +156,7 @@ export default class Documents extends React.Component {
         <input type = "text" placeholder = "paste a doc ID shared with you" name = "sharedUrl" onChange = {(event) => this.handleDocID(event)} value={this.state.sharedUrl}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
         <DocumentList docList = {this.state.userDocs} />
+        <SharedList sharedList={this.state.userCollabs}/>
       </div>
     );
   }
