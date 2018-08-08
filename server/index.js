@@ -200,6 +200,43 @@ app.post("/register", function(req, res) {
   }
 })
 
+
+// Backend route to create a new document--fetch request made in docs.jsx
+
+app.post("/create", function(req, res) {
+  if(req.body.title !== null && req.body.password !== null) {
+    Document.findOne({title: req.body.title}, function(error, document) {
+      if(error) {
+        console.log("Error finding a doc", error);
+        res.status(500).json({"error": error})
+      } else if(document) {
+        console.log("Document title already taken");
+        res.status(400).json({"error": "Document title already taken"})
+      } else if(!document) {
+        var newDocument = new Document({
+          title: req.body.title,
+          password: req.body.password,
+          contents: req.body.contents,
+          ownerofDoc: req.user._id,
+          collabsofDoc: req.body.collabsofDoc
+
+        })
+
+        newDocument.save(function(err, document) {
+          if(err) {
+            console.log("error saving new document", err);
+            res.status(500).json({"error": "cannot save document"})
+          } else {
+            console.log("successfully saved doc");
+            document.url = document._id;
+            res.status(200).json({"success": true, "Document": document})
+          }
+        })
+      }
+    })
+  }
+})
+
 app.get('/logout',function(req,res){
   req.logout();
   res.redirect('/login');
