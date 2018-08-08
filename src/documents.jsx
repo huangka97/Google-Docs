@@ -100,7 +100,28 @@ export default class Documents extends React.Component {
   addSharedDoc(event)//create document when button is pressed
   {
     event.preventDefault();//finish this...
-//    fetch("localhost:3000/documents
+    fetch("http://localhost:8080/share", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        sharedUrl: this.state.sharedUrl,//from name on input and value in state
+      })
+    })
+    .then((res) => {
+      // console.log("DOCUMENT RES IS: ", res);
+       return res.json();
+     })
+     .then((json) => {
+        console.log("SHARED JSON IS ", json);
+       if (json.success === true)
+       {
+         this.setState({sharedUrl: ""});
+       }
+     })
+     .catch((error) => console.log("Error: ", error));
+   }
+
   }
 
 //LINKS OF DOCUMENTS SHOULD BE CLICKABLE AND REDIRECT CORRECTLY
@@ -122,7 +143,7 @@ export default class Documents extends React.Component {
         <input type = "text" placeholder = "New document title" name = "title" onChange = {(event) => this.handleDocTitle(event)} value={this.state.title}/>
         <input type = "password" placeholder = "New document password" name = "password" onChange = {(event) => this.handleDocPassword(event)} value={this.state.password}/>
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
-        <input type = "text" placeholder = "paste a doc ID shared with you" onChange = {(event) => this.handleDocID(event)} value={this.state.sharedUrl}/>
+        <input type = "text" placeholder = "paste a doc ID shared with you" name = "sharedUrl" onChange = {(event) => this.handleDocID(event)} value={this.state.sharedUrl}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
         <DocumentList docList = {this.state.userDocs} />
       </div>
