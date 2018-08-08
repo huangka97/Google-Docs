@@ -8,10 +8,27 @@ export default class Documents extends React.Component {
       title: "",
       password: "",
       documents: [],
+      userDocs:[],
       docID: ""
     };
   }
-
+  componentDidMount(){
+    fetch("http://localhost:8080/user",{
+      method:"GET",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json"},
+    })
+    .then((res)=>(res.json()))
+    .then((json)=>{
+      if(json.success===true){
+        let userDocsCopy = this.state.userDocs.slice();
+        userDocsCopy.push(json.user);
+        this.setState({
+          userDocs: userDocsCopy
+        })
+      }
+    })
+  }
   handleDocTitle(event)//get input for doc title
   {
     this.setState({title: event.target.value});
