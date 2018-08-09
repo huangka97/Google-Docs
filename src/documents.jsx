@@ -6,21 +6,24 @@ class DocumentList extends React.Component {
   }
   render() {
     return(
+      <div>
       <ul>{this.props.docList.map((doc) => <li>{doc.title}</li>)}</ul>
+      <ul>{this.props.sharedList.map((doc) => <div><li>{doc.title}</li></div>)}</ul>
+    </div>
     )
   }
 }
 
-class SharedList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return(
-      <ul>{this.props.sharedList.map((doc) => <li>{doc.title}</li>)}</ul>
-    )
-  }
-}
+// class SharedList extends React.Component {
+//   constructor(props) {
+//     super(props);
+//   }
+//   render() {
+//     return(
+//       <ul>{this.props.sharedList.map((doc) => <div><li>{doc.title}</li></div>)}</ul>
+//     )
+//   }
+// }
 
 
 export default class Documents extends React.Component {
@@ -160,8 +163,8 @@ export default class Documents extends React.Component {
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
         <input type = "text" placeholder = "paste a doc ID shared with you" name = "sharedUrl" onChange = {(event) => this.handleDocID(event)} value={this.state.sharedUrl}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
-        <DocumentList docList = {this.state.userDocs} />
-        <SharedList sharedList={this.state.userCollabs}/>
+        <DocumentList docList = {this.state.userDocs} sharedList={this.state.userCollabs} />
+        {/* <SharedList sharedList={this.state.userCollabs}/> */}
       </div>
     );
   }
