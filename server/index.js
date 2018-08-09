@@ -97,13 +97,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+// *******SOCKET stuff
 
-// io.on('connection', function (socket) {
-//   socket.emit('msg', { hello: 'world' });
-//   socket.on('cmd', function (data) {
-//     console.log(data);
-//   });
-// });
+io.on('connection', function (socket) {
+  console.log("client connected***********")
+});
 
 
 

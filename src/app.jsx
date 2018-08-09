@@ -38,6 +38,13 @@ import Login from "./login"
 
 import Documents from "./documents"
 
+// socket io
+
+import io from 'socket.io-client';
+
+
+
+
 // hello
 
 const styleMap = {
@@ -94,10 +101,22 @@ export default class App extends React.Component {
       showRegister:false,
       showLogin:false,
       showDocuments: false,
-      documentID:""
+      documentID:"",
+      socket: io('http://localhost:8080')
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
+
+  //socket stuff
+
+  componentDidMount() {
+    this.state.socket.on("connect", function() {
+      console.log("server connected");
+    })
+  }
+
+
+
 
   toggleLogin(e){
     e.preventDefault();
@@ -272,11 +291,13 @@ saveEditor(e) {
 //     return 'superFancyBlockquote';
 //   }
 // }
-  onChange(editorState) {
-    this.setState({ editorState });
-  }
 
 
+onChange(editorState) {
+  //socket stuff
+  console.log("ON CHANGE FIRED!!!!!!!!!!!!!!!");
+  this.setState({ editorState });
+}
 
 
   // const socket = io('http://localhost:8080');
