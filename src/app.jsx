@@ -1,6 +1,6 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Editor, Modifier, EditorState, RichUtils} from 'draft-js';
+import {Editor, Modifier, EditorState, RichUtils, convertFromRaw, convertToRaw} from 'draft-js';
 
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -124,8 +124,24 @@ export default class App extends React.Component {
     this.setState({
       showDocuments: !this.state.showDocuments,
       documentID:id
-    })
+    }, () => {
 
+    fetch("http://localhost:8080/save/"+this.state.documentID, {
+      method: "get",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json"}
+    })
+    .then((res)=>(res.json()))
+    .then((json)=> {
+      if(json.success === true) {
+        console.log("JSON SUCCESS");
+        var contentState = convertFromRaw(json.content);
+        this.setState({
+          editorState: EditorState.createWithContent(contentState)
+        });
+      }
+    })
+    .catch((error)=>(console.log(error)))})
   }
   // toggleDocumentId(e){
   //   e.preventDefault();
@@ -224,6 +240,32 @@ toggleNumberedPoints(){
     )
 }
 
+saveEditor(e) {
+  e.preventDefault();
+  var convertedContent=convertToRaw(this.state.editorState.getCurrentContent())
+  console.log("save triggered!!!!");
+  console.log("DOC ID IS", this.state.documentID);
+  fetch("http://localhost:8080/save/"+this.state.documentID, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      contents: convertedContent
+    })
+  })
+  .then((res) => {
+     return res.json();
+   })
+   .then((json) => {
+     console.log("JSON FOR EDITOR", json);
+     if (json.success === true)
+     {
+       console.log("successfully updated the editor contents")
+     }
+   })
+  .catch((error) => console.log("Error: ", error));
+}
+
 // myBlockStyleFn(contentBlock) {
 //   const type = contentBlock.getType();
 //   if (type === 'blockquote') {
@@ -315,7 +357,9 @@ toggleNumberedPoints(){
           onChange = {nextFont => this.setState({activeFont: nextFont.family})}/>
           <div className="apply-font">
 
-
+            <FlatButton
+              onMouseDown={(e) => this.saveEditor(e)}>Save
+            </FlatButton>
     <Editor blockStyleFn={myBlockStyleFn} customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}} />
 
 

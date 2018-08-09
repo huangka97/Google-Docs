@@ -7,8 +7,8 @@ class DocumentList extends React.Component {
   render() {
     return(
       <div>
-      <ul>{this.props.docList.map((doc) => <div onClick={(e,id)=>this.props.docFunc(e,doc.url)}><li>{doc.title}</li></div>)}</ul>
-      <ul>{this.props.sharedList.map((doc) => <div onClick={(e,id)=>this.props.docFunc(e,doc.url)}><li>{doc.title}</li></div>)}</ul>
+      <ul>{this.props.docList.map((doc) => <div onClick={(e,id)=>this.props.docFunc(e,doc._id)}><li>{doc.title}</li></div>)}</ul>
+      <ul>{this.props.sharedList.map((doc) => <div onClick={(e,id)=>this.props.docFunc(e,doc._id)}><li>{doc.title}</li></div>)}</ul>
     </div>
     )
   }

@@ -318,6 +318,43 @@ app.post("/share", function(req, res) {
   }
 })
 
+
+// routes for editor-- to get what was in editor and post something new to save change
+
+app.get("/save/:id", function(req, res) {
+  var docId = req.params.id;
+  console.log('readched')
+  Document.findById(docId, function(error, doc) {
+    if(error) {
+      console.log("could not find contents of that document");
+      res.status(500).json({"error": "could not find contents of that document"})
+    } else if(!doc) {
+      console.log("cannot find that document");
+      res.status(400).json({"error": "cannot find that document"})
+    } else {
+      res.status(200).json({"success": true, "content": JSON.parse(doc.contents)})
+    }
+  })
+})
+
+app.post("/save/:id", function(req, res) {
+  var docId = req.params.id;
+  console.log("id is", docId);
+  console.log("REQ BODY IS IN SAVE ID ROUTE", req.body);
+  Document.findOneAndUpdate({_id: docId}, {contents: JSON.stringify(req.body.contents)}, function(error, doc) {
+    if(error) {
+      console.log("problem finding that document");
+      res.status(500).json({"error": "problem finding that document"})
+    } else if(!doc) {
+      console.log("could not find that document");
+      res.status(400).json({"error": "could not find that document"})
+    } else {
+      console.log("SUCCESS AT UPDATING CONTENTS");
+      res.status(200).json({"success": true})
+    }
+  })
+})
+
 // Backend route to create a new document--fetch request made in docs.jsx
 
 // app.post("/create", async function(req, res) {
