@@ -113,12 +113,27 @@ export default class App extends React.Component {
     this.state.socket.on("connect", function() {
       console.log("server connected");
     })
+    this.state.socket.on("editorState",(updatedEditorState)=>{
+      let rando1=JSON.parse(updatedEditorState);
+      rando1=convertFromRaw(rando1);
+      console.log("UPDATED STATE for app.jsx",rando1);
+      this.setState({
+        editorState:EditorState.createWithContent(rando1)
+      })
+    })
   }
 
   onChange(editorState) {
     //socket stuff
     // console.log("ON CHANGE FIRED!!!!!!!!!!!!!!!");
+    console.log("Edited State parameter: ",editorState);
+    // console.log("Edited State 2.0: ",this.state.editorState);
+    let rando=convertToRaw(editorState.getCurrentContent());
+    rando=JSON.stringify(rando);
+    this.state.socket.emit("updatedState",rando,this.state.documentID);
+
     this.setState({ editorState });
+
   }
 
 
