@@ -34,6 +34,7 @@ import FormatListNumbered from 'material-ui/svg-icons/editor/format-list-numbere
 import FontPicker from 'font-picker-react';
 
 import Registration from "./registration"
+import History from "./history"
 import Login from "./login"
 
 import Documents from "./documents"
@@ -348,7 +349,7 @@ saveEditor(e) {
       <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)}/>
     </div> :
     <div>
-      <FlatButton
+      <FlatButton//color
         icon = {<FormatColorText/>}
         onMouseDown={(e) => {
         e.preventDefault();
@@ -370,7 +371,7 @@ saveEditor(e) {
       }}></FlatButton>
 
 
-      <FlatButton
+      <FlatButton//bold
         icon = {<FormatBold/>}
         onMouseDown={(e) => this.onBoldClick(e)}>
         </FlatButton>
@@ -399,7 +400,8 @@ saveEditor(e) {
             <FlatButton
               onMouseDown={(e) => this.saveEditor(e)}>Save
             </FlatButton>
-    <Editor blockStyleFn={myBlockStyleFn} customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}} style = {{border: "2px solid black", backgroundColor: "lightgrey"}} />
+
+    <Editor blockStyleFn={myBlockStyleFn} customStyleMap={styleMap} editorState={this.state.editorState} onChange={(editorState) => {this.onChange(editorState)}}/>
 
 
 

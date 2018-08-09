@@ -262,8 +262,8 @@ app.post("/create", function(req, res) {
           contents: "",
           url: "",
           ownerOfDoc: req.user._id,
-          collabsOfDoc: []
-
+          collabsOfDoc: [],
+          history: []
         })
 
         console.log("DOCUMENT IS", newDocument);
