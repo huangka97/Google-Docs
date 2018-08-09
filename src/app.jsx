@@ -93,7 +93,8 @@ export default class App extends React.Component {
       showEditor:false,
       showRegister:false,
       showLogin:false,
-      showDocuments: false
+      showDocuments: false,
+      documentID:""
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
@@ -117,12 +118,21 @@ export default class App extends React.Component {
 
   }
 
-  toggleDocuments(e) {
+  toggleDocuments(e,id) {
+    console.log(id);
     e.preventDefault();
     this.setState({
-      showDocuments: !this.state.showDocuments
+      showDocuments: !this.state.showDocuments,
+      documentID:id
     })
+
   }
+  // toggleDocumentId(e){
+  //   e.preventDefault();
+  //   this.setState({
+  //     documentID:this.state.
+  //   })
+  // }
 
 
   onBoldClick(e) {
@@ -254,7 +264,7 @@ toggleNumberedPoints(){
       <Login registerFunction={(e)=>this.toggleRegister(e)}/>
     </div>: this.state.showEditor && this.state.showRegister && !this.state.showDocuments?
     <div>
-      <Documents documentFunction={(e)=>this.toggleDocuments(e)}/>
+      <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)}/>
     </div> :
     <div>
       <FlatButton
