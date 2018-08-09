@@ -115,6 +115,12 @@ export default class App extends React.Component {
     })
   }
 
+  onChange(editorState) {
+    //socket stuff
+    // console.log("ON CHANGE FIRED!!!!!!!!!!!!!!!");
+    this.setState({ editorState });
+  }
+
 
 
 
@@ -158,6 +164,8 @@ export default class App extends React.Component {
         this.setState({
           editorState: EditorState.createWithContent(contentState)
         });
+        //socket io to join a room
+        this.state.socket.emit("roomId", this.state.documentID);
       }
     })
     .catch((error)=>(console.log(error)))})
@@ -293,11 +301,6 @@ saveEditor(e) {
 // }
 
 
-onChange(editorState) {
-  //socket stuff
-  console.log("ON CHANGE FIRED!!!!!!!!!!!!!!!");
-  this.setState({ editorState });
-}
 
 
   // const socket = io('http://localhost:8080');

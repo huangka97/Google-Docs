@@ -101,6 +101,15 @@ app.use(passport.session());
 
 io.on('connection', function (socket) {
   console.log("client connected***********")
+  socket.on("roomId", function(docId) {
+    console.log("DOC ID IS", docId);
+    if(socket.room) {
+      socket.leave(socket.room)
+    }
+      socket.room = docId;
+      socket.join(docId);
+      console.log("ROOM IS", socket.room);
+  })
 });
 
 
