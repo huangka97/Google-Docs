@@ -262,7 +262,8 @@ app.post("/create", function(req, res) {
           contents: "",
           url: "",
           ownerOfDoc: req.user._id,
-          collabsOfDoc: []
+          collabsOfDoc: [],
+          history: []
         })
 
         console.log("DOCUMENT IS", newDocument);
@@ -332,6 +333,23 @@ app.post("/share", function(req, res) {
 
 // routes for editor-- to get what was in editor and post something new to save change
 
+app.get("/history/:id",function(req,res){
+  var docId=req.params.id;
+  console.log("entered history get route")
+  Document.findById(docId,function(error,doc){
+    if(error){
+      console.log("could not find contents of that document");
+      res.status(500).json({'error':"could not find contents of that document"})
+    }else if(!doc){
+      console.log("cannot find that docuemnt");
+      res.status(400).json({"error":"cannot find that document"})
+    }else{
+        res.status(200).json({"success":true,"history": doc.history})
+      }
+    })
+
+})
+
 app.get("/save/:id", function(req, res) {
   var docId = req.params.id;
   console.log('readched')
@@ -366,8 +384,15 @@ app.post("/save/:id", function(req, res) {
       res.status(400).json({"error": "could not find that document"})
     } else {
       console.log("SUCCESS AT UPDATING CONTENTS");
-      // doc.history.push(JSON.stringify(req.body.contents)); // pushing changes that are saved into document history arr
-      res.status(200).json({"success": true})
+      doc.history.push(JSON.stringify(req.body.contents)); // pushing changes that are saved into document history arr;
+      doc.save(function(err) {
+        if(err) {
+          console.log("failed to save history push");
+          res.status(500).json({"error": "failed to save updated history"})
+        } else {
+            res.status(200).json({"success": true})
+        }
+      })
     }
   })
 })
