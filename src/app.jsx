@@ -132,7 +132,7 @@ export default class App extends React.Component {
     // console.log("Edited State 2.0: ",this.state.editorState);
     let rando=convertToRaw(editorState.getCurrentContent());
     rando=JSON.stringify(rando);
-    this.state.socket.emit("updatedState",rando,this.state.documentID);
+    this.state.socket.emit("updatedState",{updatedEditorState: rando, id: this.state.documentID});
 
     this.setState({ editorState });
 
@@ -184,8 +184,9 @@ export default class App extends React.Component {
         });
         //socket io to join a room
         this.state.socket.emit("roomId", this.state.documentID);
+    }
         console.log("showdocs", this.state.showDocuments);
-      }
+      
     })
     .catch((error)=>(console.log(error)))})
   }
