@@ -7,8 +7,8 @@ class DocumentList extends React.Component {
   render() {
     return(
       <div>
-      <ul>{this.props.docList.map((doc) => <div><li> <p onClick={(e,id)=>this.props.docFunc(e,doc._id)}> {doc.title} </p> <button onClick={(e)=>this.props.historyFunc(e)}>History</button> </li></div>)}</ul>
-      <ul>{this.props.sharedList.map((doc) => <div><li> <p onClick={(e,id)=>this.props.docFunc(e,doc._id)}> {doc.title} </p> <button onClick={(e)=>this.props.historyFunc(e)}>History</button> </li></div>)}</ul>
+      <ul>{this.props.docList.map((doc) => <div><li> <p onClick={(e,id)=>this.props.docFunc(e,doc._id)}> {doc.title} </p> <button onClick={(e,id)=>this.props.historyFunc(e,doc._id)}>History</button> </li></div>)}</ul>
+      <ul>{this.props.sharedList.map((doc) => <div><li> <p onClick={(e,id)=>this.props.docFunc(e,doc._id)}> {doc.title} </p> <button onClick={(e,id)=>this.props.historyFunc(e,doc._id)}>History</button> </li></div>)}</ul>
     </div>
     )
   }
@@ -163,7 +163,7 @@ export default class Documents extends React.Component {
         <button onClick = {(event) => this.createDoc(event)}>Create Document</button>
         <input type = "text" placeholder = "paste a doc ID shared with you" name = "sharedUrl" onChange = {(event) => this.handleDocID(event)} value={this.state.sharedUrl}/>
         <button onClick = {(event) => this.addSharedDoc(event)}>Add Shared Document</button>
-        <DocumentList docList = {this.state.userDocs} sharedList={this.state.userCollabs} docFunc={(e,id)=>this.props.documentFunction(e,id)} historyFunc={(e) => this.props.historyFunction(e)} />
+        <DocumentList docList = {this.state.userDocs} sharedList={this.state.userCollabs} docFunc={(e,id)=>this.props.documentFunction(e,id)} historyFunc={(e, id) => this.props.historyFunction(e, id)} />
         {/* <SharedList sharedList={this.state.userCollabs}/> */}
       </div>
     );

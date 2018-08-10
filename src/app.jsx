@@ -100,7 +100,7 @@ export default class App extends React.Component {
       activeFont: "Open-Sans",
       showEditor:false,
       showRegister:false,
-      showLogin:false,
+      showLogin:true,
       showDocuments: false,
       showHistory: false,
       documentID:"",
@@ -194,11 +194,12 @@ export default class App extends React.Component {
 
 
 
-  toggleHistory(e){
+  toggleHistory(e,id){
     e.preventDefault();
     this.setState({
       showHistory: !this.state.showHistory,
-      showDocuments: !this.state.showDocuments
+      showDocuments: !this.state.showDocuments,
+      documentID:id
     })
     console.log("hist", this.state.showHistory);
     console.log("editor", this.state.showEditor);
@@ -357,11 +358,9 @@ saveEditor(e) {
   //   });
   // }
 
-  showHistory(e, id) {
-    e.preventDefault();
-    this.setState({
-      documentID: id
-    })
+  showHistory(e, next) {
+    console.log('enterd show History')
+    e&&e.preventDefault();
     fetch("http://localhost:8080/history/"+this.state.documentID, {
       method: "get",
       credentials: "same-origin",
@@ -370,15 +369,19 @@ saveEditor(e) {
     .then((resp)=>(resp.json()))
     .then((json)=>{
       if(json.success === true) {
-        console.log("show history function successful");
-        var historyCopy = historyArr.slice();
-        historyCopy.push(json.history);
-        this.setState({
-          historyArr: historyCopy
-        })
+        console.log("show history function successful", json.history);
+        var historyCopyReal = json.history.map(history => convertFromRaw(JSON.parse(history)));
+        console.log('historyCopyReal', historyCopyReal);
+
+        console.log('mapped history arr', historyCopyReal);
+        // var historyCopy = this.state.historyArr.sl/ice();
+        // historyCopy.push(historyCopyReal);
+        next(historyCopyReal);
       }
     })
   }
+
+
 
 
   render() {
@@ -392,10 +395,10 @@ saveEditor(e) {
       <Login registerFunction={(e)=>this.toggleRegister(e)}/>
     </div>: this.state.showEditor && this.state.showRegister && !this.state.showDocuments?
     <div>
-      <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)} historyFunction = {(e) => this.toggleHistory(e)}/>
+      <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)} historyFunction = {(e,id) => this.toggleHistory(e,id)}/>
     </div> : this.state.showHistory?
     <div>
-      <History showHistory={(e, id)=>this.showHistory(e, id)} history={this.state.historyArr} />
+      <History historyArr={(e, next)=>this.showHistory(e, next)}/>
     </div> :
     <div>
       <FlatButton//color

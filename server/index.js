@@ -344,10 +344,9 @@ app.get("/history/:id",function(req,res){
       console.log("cannot find that docuemnt");
       res.status(400).json({"error":"cannot find that document"})
     }else{
-        res.status(200).json({"success":true,"history":doc.history})
+        res.status(200).json({"success":true,"history": doc.history})
       }
-    }
-  })
+    })
 
 })
 
@@ -385,7 +384,7 @@ app.post("/save/:id", function(req, res) {
       res.status(400).json({"error": "could not find that document"})
     } else {
       console.log("SUCCESS AT UPDATING CONTENTS");
-      doc.history.push(JSON.stringify(req.body.contents)); // pushing changes that are saved into document history arr
+      doc.history.push(JSON.stringify(req.body.contents)); // pushing changes that are saved into document history arr;
       doc.save(function(err) {
         if(err) {
           console.log("failed to save history push");
