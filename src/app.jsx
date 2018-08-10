@@ -2,6 +2,9 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Editor, Modifier, EditorState, RichUtils, convertFromRaw, convertToRaw} from 'draft-js';
 
+import AppBar from '@material-ui/core/AppBar';
+import ToolBar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
