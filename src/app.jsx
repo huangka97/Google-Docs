@@ -102,6 +102,7 @@ export default class App extends React.Component {
       showRegister:false,
       showLogin:false,
       showDocuments: false,
+      showHistory: false,
       documentID:"",
       socket: io('http://localhost:8080')
     };
@@ -161,6 +162,7 @@ export default class App extends React.Component {
 
   toggleDocuments(e,id) {
     console.log(id);
+    console.log("entered toggledocs");
     e.preventDefault();
     this.setState({
       showDocuments: !this.state.showDocuments,
@@ -182,10 +184,29 @@ export default class App extends React.Component {
         });
         //socket io to join a room
         this.state.socket.emit("roomId", this.state.documentID);
+        console.log("showdocs", this.state.showDocuments);
       }
     })
     .catch((error)=>(console.log(error)))})
   }
+
+
+
+
+  toggleHistory(e){
+    e.preventDefault();
+    this.setState({
+      showHistory: !this.state.showHistory,
+      showDocuments: !this.state.showDocuments
+    })
+    console.log("hist", this.state.showHistory);
+    console.log("editor", this.state.showEditor);
+    console.log("Register", this.state.showRegister);
+    console.log("documents", this.state.showDocuments);
+    console.log("Login", this.state.showLogin);
+  }
+
+
   // toggleDocumentId(e){
   //   e.preventDefault();
   //   this.setState({
@@ -346,7 +367,10 @@ saveEditor(e) {
       <Login registerFunction={(e)=>this.toggleRegister(e)}/>
     </div>: this.state.showEditor && this.state.showRegister && !this.state.showDocuments?
     <div>
-      <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)}/>
+      <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)} historyFunction = {(e) => this.toggleHistory(e)}/>
+    </div> : this.state.showHistory?
+    <div> 
+      <History />
     </div> :
     <div>
       <FlatButton//color
