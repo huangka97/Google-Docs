@@ -41,8 +41,7 @@ var DocumentSchema = new Schema(
     collabsOfDoc: [{//everyone who collaborated on this document
       type: mongoose.Schema.ObjectId,
       ref: "User"
-    }],
-    history: []
+    }]
   });
 
   var User = mongoose.model("User", UserSchema);

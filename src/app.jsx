@@ -305,6 +305,7 @@ toggleNumberedPoints(){
 }
 
 saveEditor(e) {
+  console.log("INSIDE SAVE FUNC")
   e.preventDefault();
   var convertedContent=convertToRaw(this.state.editorState.getCurrentContent())
   console.log("save triggered!!!!");
@@ -369,7 +370,7 @@ saveEditor(e) {
     <div>
       <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)} historyFunction = {(e) => this.toggleHistory(e)}/>
     </div> : this.state.showHistory?
-    <div> 
+    <div>
       <History />
     </div> :
     <div>

@@ -262,8 +262,7 @@ app.post("/create", function(req, res) {
           contents: "",
           url: "",
           ownerOfDoc: req.user._id,
-          collabsOfDoc: [],
-          history: []
+          collabsOfDoc: []
         })
 
         console.log("DOCUMENT IS", newDocument);
@@ -344,7 +343,12 @@ app.get("/save/:id", function(req, res) {
       console.log("cannot find that document");
       res.status(400).json({"error": "cannot find that document"})
     } else {
-      res.status(200).json({"success": true, "content": JSON.parse(doc.contents)})
+      if(doc.contents){
+        res.status(200).json({"success": true, "content": JSON.parse(doc.contents)})
+      } else {
+        res.status(200).json({"success": true, "content": doc.contents})
+      }
+
     }
   })
 })
@@ -362,6 +366,7 @@ app.post("/save/:id", function(req, res) {
       res.status(400).json({"error": "could not find that document"})
     } else {
       console.log("SUCCESS AT UPDATING CONTENTS");
+      // doc.history.push(JSON.stringify(req.body.contents)); // pushing changes that are saved into document history arr
       res.status(200).json({"success": true})
     }
   })
