@@ -102,7 +102,8 @@ app.use(passport.session());
 io.on('connection', function (socket) {
   console.log("client connected***********")
   socket.on("updatedState",function(data){
-    socket.broadcast.to(data.id).emit('editorState', data.updatedEditorState)
+    console.log("DATAID: ", data.id)
+    socket.to(data.id).emit('editorState', data.updatedEditorState)
   })
   socket.on("roomId", function(docId) {
     console.log("DOC ID IS", docId);

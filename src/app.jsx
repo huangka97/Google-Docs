@@ -104,7 +104,7 @@ export default class App extends React.Component {
       showDocuments: false,
       showHistory: false,
       documentID:"",
-      socket: io('http://localhost:8080')
+      socket: io('http://127.0.0.1:8080')
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
