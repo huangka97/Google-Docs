@@ -104,7 +104,8 @@ export default class App extends React.Component {
       showDocuments: false,
       showHistory: false,
       documentID:"",
-      socket: io('http://localhost:8080')
+      socket: io('http://localhost:8080'),
+      historyArr: []
     };
    // this.onChange = (editorState) => this.setState({editorState});
   }
@@ -356,6 +357,29 @@ saveEditor(e) {
   //   });
   // }
 
+  showHistory(e, id) {
+    e.preventDefault();
+    this.setState({
+      documentID: id
+    })
+    fetch("http://localhost:8080/history/"+this.state.documentID, {
+      method: "get",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json"}
+    })
+    .then((resp)=>(resp.json()))
+    .then((json)=>{
+      if(json.success === true) {
+        console.log("show history function successful");
+        var historyCopy = historyArr.slice();
+        historyCopy.push(json.history);
+        this.setState({
+          historyArr: historyCopy
+        })
+      }
+    })
+  }
+
 
   render() {
 
@@ -371,7 +395,7 @@ saveEditor(e) {
       <Documents documentFunction={(e,id)=>this.toggleDocuments(e,id)} historyFunction = {(e) => this.toggleHistory(e)}/>
     </div> : this.state.showHistory?
     <div>
-      <History />
+      <History showHistory={(e, id)=>this.showHistory(e, id)} history={this.state.historyArr} />
     </div> :
     <div>
       <FlatButton//color
